@@ -1,6 +1,7 @@
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -72,7 +73,8 @@ public class EntryDownloader {
     final EntryDownloader entryDownloader =
         new EntryDownloader(logger, downloader);
 
-    final InputStream is = EntryDownloader.class.getResourceAsStream("/artifacts.adf");
+    final URL url = new URL("http://adepthub.com/adf/ivy");
+    final InputStream is = url.openStream();
     final Reader r = new InputStreamReader(is, "UTF-8");
     final JsonObject jo = JsonObject.readFrom(r);
     final Entry entry = EntryJsonDeserialization.INSTANCE.fromJson(jo);
