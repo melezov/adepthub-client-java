@@ -36,7 +36,7 @@ public class EntryWriter {
         writeContentToFile(file, artifact.hash);
       } catch (IOException e) {
         hasErrors = true;
-        logger.error("Could not write file {}", file.getAbsolutePath());
+        logger.error("Can't create/write to file {}", file.getAbsolutePath());
       }
     }
     return hasErrors;

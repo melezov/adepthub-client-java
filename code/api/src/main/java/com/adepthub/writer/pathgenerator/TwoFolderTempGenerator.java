@@ -16,11 +16,11 @@ public class TwoFolderTempGenerator implements FilePathGenerator {
     final StringBuilder builder = new StringBuilder();
 
     builder.append(tempFolederPath)
-           .append(File.pathSeparator)
+           .append(File.separator)
            .append(hashString.substring(0, 4))
-           .append(File.pathSeparator)
+           .append(File.separator)
            .append(hashString.substring(4, 8))
-           .append(File.pathSeparator)
+           .append(File.separator)
            .append(hashString.substring(8))
            .append(String.valueOf(randomGenerator.nextInt()));
 
