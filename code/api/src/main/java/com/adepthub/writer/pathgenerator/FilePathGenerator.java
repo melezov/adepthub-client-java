@@ -3,6 +3,6 @@ package com.adepthub.writer.pathgenerator;
 
 public interface FilePathGenerator {
 
-	public String getFilePath(byte[] hash);
+  public String getFilePath(byte[] hash);
 
 }

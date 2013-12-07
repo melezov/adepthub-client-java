@@ -36,14 +36,14 @@ public class EntryWriter {
         writeContentToFile(file, artifact.hash);
       } catch (IOException e) {
         hasErrors = true;
-        logger.error("Can't create/write to file {}", file.getAbsolutePath());
+        logger.error("Could not write file {}", file.getAbsolutePath());
       }
     }
     return hasErrors;
   }
 
   private void createParentDirectories(File file) {
-    file.mkdirs();
+    file.getParentFile().mkdirs();
   }
 
   private void writeContentToFile(File file, byte[] content) throws IOException {
