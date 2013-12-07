@@ -1,4 +1,4 @@
-package com.adepthub.writer;
+package com.adepthub.writer.pathgenerator;
 
 import java.io.File;
 import java.util.Random;

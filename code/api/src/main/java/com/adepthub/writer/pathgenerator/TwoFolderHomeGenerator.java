@@ -1,4 +1,4 @@
-package com.adepthub.writer;
+package com.adepthub.writer.pathgenerator;
 
 import java.io.File;
 
@@ -6,7 +6,7 @@ import com.adepthub.client.Hasher;
 
 public class TwoFolderHomeGenerator implements FilePathGenerator {
 
-  private final static String homeFolderPath  = System.getProperty("user.home");
+  private static final String homeFolderPath  = System.getProperty("user.home");
 
   @Override
   public String getFilePath(byte[] hash) {

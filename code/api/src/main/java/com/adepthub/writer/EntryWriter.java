@@ -1,20 +1,24 @@
 package com.adepthub.writer;
 
-import java.io.BufferedWriter;
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.adepthub.client.model.Artifact;
 import com.adepthub.client.model.Entry;
+import com.adepthub.writer.pathgenerator.FilePathGenerator;
 
 public class EntryWriter {
+  private final Logger logger = LoggerFactory.getLogger(EntryWriter.class.getName());
 
   private Entry entry;
-  private Logger logger;
   private FilePathGenerator generator;
+
+  public EntryWriter() {}
 
   public EntryWriter(Entry entry, FilePathGenerator generator) {
     this.entry     = entry;
@@ -22,17 +26,20 @@ public class EntryWriter {
   }
 
   public boolean writeArtifacts() {
-    try {
-      for (Artifact artifact : entry.artifacts) {
-        File file = new File(generator.getFilePath(artifact.hash));
+    boolean hasErrors = false;
+
+    for (Artifact artifact : entry.artifacts) {
+      File file = null;
+      try {
+        file = new File(generator.getFilePath(artifact.hash));
         createParentDirectories(file);
-//        writeContentToFile(file, artifact.filename);
+        writeContentToFile(file, artifact.hash);
+      } catch (IOException e) {
+        hasErrors = true;
+        logger.error("Could not write file {}", file.getAbsolutePath());
       }
-      return true;
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      return false;
     }
+    return hasErrors;
   }
 
   private void createParentDirectories(File file) {
@@ -40,10 +47,9 @@ public class EntryWriter {
   }
 
   private void writeContentToFile(File file, byte[] content) throws IOException {
-    BufferedWriter bw = new BufferedWriter(new FileWriter(file));
- //   bw.append(content);
-    bw.flush();
-    bw.close();
+    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+    bos.write(content);
+    bos.close();
   }
 
   public Entry getEntry() {
