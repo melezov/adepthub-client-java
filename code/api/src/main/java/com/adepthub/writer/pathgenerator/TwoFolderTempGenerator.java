@@ -1,3 +1,4 @@
+/*
 package com.adepthub.writer.pathgenerator;
 
 import java.io.File;
@@ -22,3 +23,4 @@ public class TwoFolderTempGenerator extends FilePathGeneratorDecorator {
   }
 
 }
+*/

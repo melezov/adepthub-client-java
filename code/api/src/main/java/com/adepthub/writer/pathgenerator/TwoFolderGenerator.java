@@ -1,3 +1,4 @@
+/*
 package com.adepthub.writer.pathgenerator;
 
 import java.io.File;
@@ -18,3 +19,4 @@ public class TwoFolderGenerator implements FilePathGenerator {
   }
 
 }
+*/

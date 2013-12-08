@@ -8,7 +8,9 @@ import com.adepthub.client.model.Entry;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public enum EntryJsonDeserialization implements JsonDeserialization<Entry>{
+public enum EntryJsonDeserialization
+    implements JsonDeserialization<Entry> {
+
   INSTANCE;
 
   @Override

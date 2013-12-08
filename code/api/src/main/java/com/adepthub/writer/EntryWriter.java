@@ -1,3 +1,4 @@
+/*
 package com.adepthub.writer;
 
 import java.io.BufferedOutputStream;
@@ -68,3 +69,4 @@ public class EntryWriter {
     this.generator = generator;
   }
 }
+*/

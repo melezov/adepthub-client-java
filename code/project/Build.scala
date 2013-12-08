@@ -33,7 +33,7 @@ object Default {
       , "-source", "1.6"
       , "-target", "1.6"
       )
-			
+
     , unmanagedSourceDirectories in Compile := (javaSource in Compile).value :: Nil
     , unmanagedSourceDirectories in Test := Nil
 
@@ -47,10 +47,10 @@ object Default {
 // ----------------------------------------------------------------------------
 
 object Dependencies {
-  val slf4j       = "org.slf4j" % "slf4j-api" % "1.7.5" 
-	val slf4jSimple = "org.slf4j" % "slf4j-simple" % "1.7.5"
-	
-	val minimalJson = "com.eclipsesource.minimal-json" % "minimal-json" % "0.9.1"
+  val slf4j       = "org.slf4j" % "slf4j-api" % "1.7.5"
+  val slf4jSimple = "org.slf4j" % "slf4j-simple" % "1.7.5"
+
+  val minimalJson = "com.eclipsesource.minimal-json" % "minimal-json" % "0.9.1"
 }
 
 // ----------------------------------------------------------------------------
@@ -65,8 +65,8 @@ object Build extends Build {
   , settings = Default.settings ++ Seq(
       name := "Adepthub-Client-Java-API"
     , libraryDependencies ++= Seq(
-		    slf4jSimple
-			, minimalJson
+        slf4jSimple
+      , minimalJson
       )
     )
   )
@@ -78,6 +78,6 @@ object Build extends Build {
       name := "Adepthub-Client-Java-Cmdline"
     , libraryDependencies ++= Seq(
       )
-	  )
+    )
   ) dependsOn(api)
 }

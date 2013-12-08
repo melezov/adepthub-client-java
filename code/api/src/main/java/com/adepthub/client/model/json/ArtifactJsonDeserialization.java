@@ -3,13 +3,14 @@ package com.adepthub.client.model.json;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.DatatypeConverter;
-
+import com.adepthub.client.hash.SHA256;
 import com.adepthub.client.model.Artifact;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public enum ArtifactJsonDeserialization implements JsonDeserialization<Artifact>{
+public enum ArtifactJsonDeserialization
+    implements JsonDeserialization<Artifact> {
+
   INSTANCE;
 
   @Override
@@ -19,15 +20,16 @@ public enum ArtifactJsonDeserialization implements JsonDeserialization<Artifact>
       locations.add(jv.asString());
     }
 
+    final long contentLength = jo.get("content-length").asLong();
+
     final String hashString = jo.get("hash").asString();
 
     final String filename = jo.get("filename").asString();
 
     return new Artifact(
         locations.toArray(new String[locations.size()]),
-        DatatypeConverter.parseHexBinary(hashString),
+        contentLength,
+        new SHA256(hashString),
         filename);
   }
-
-
 }

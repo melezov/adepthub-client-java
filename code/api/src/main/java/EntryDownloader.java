@@ -1,10 +1,9 @@
-import java.io.BufferedReader;
+/*
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -13,8 +12,8 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adepthub.client.Downloader;
-import com.adepthub.client.Hasher;
+import com.adepthub.client.download.StreamingDownload;
+import com.adepthub.client.hash.Hasher;
 import com.adepthub.client.model.Artifact;
 import com.adepthub.client.model.Entry;
 import com.adepthub.client.model.json.EntryJsonDeserialization;
@@ -22,14 +21,14 @@ import com.eclipsesource.json.JsonObject;
 
 public class EntryDownloader {
   private final Logger logger;
-  private final Downloader downloader;
+  private final StreamingDownload streamingDownload;
   private final ExecutorService executorService;
 
   public EntryDownloader(
       final Logger logger,
-      final Downloader downloader) {
+      final d downloader) {
     this.logger = logger;
-    this.downloader = downloader;
+    this.streamingDownload = streamingDownload;
 
     executorService = Executors.newCachedThreadPool();
   }
@@ -70,7 +69,7 @@ public class EntryDownloader {
   public static void main(final String[] args) throws Throwable {
     final Logger logger = LoggerFactory.getLogger("adepthub-client-java");
     final Hasher hasher = new Hasher(logger);
-    final Downloader downloader = new Downloader(logger, hasher);
+    final ParallelBinaryDownload downloader = new ParallelBinaryDownload(logger, hasher);
 
     final EntryDownloader entryDownloader =
         new EntryDownloader(logger, downloader);
@@ -86,8 +85,5 @@ public class EntryDownloader {
     entryDownloader.shutdown();
     downloader.shutdown();
   }
-
-
-
-
 }
+*/

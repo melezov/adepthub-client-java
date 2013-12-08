@@ -1,3 +1,4 @@
+/*
 package com.adepthub.writer.pathgenerator;
 
 public abstract class FilePathGeneratorDecorator implements FilePathGenerator {
@@ -5,7 +6,8 @@ public abstract class FilePathGeneratorDecorator implements FilePathGenerator {
   protected FilePathGenerator generator;
   protected String undecoratedValue;
 
-  public FilePathGeneratorDecorator(FilePathGenerator generator) {
+  public FilePathGeneratorDecorator(
+      FilePathGenerator generator) {
     this.generator = generator;
   }
 
@@ -17,3 +19,4 @@ public abstract class FilePathGeneratorDecorator implements FilePathGenerator {
   }
 
 }
+*/
