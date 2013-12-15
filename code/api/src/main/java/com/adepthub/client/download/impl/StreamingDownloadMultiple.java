@@ -87,6 +87,7 @@ public class StreamingDownloadMultiple
     // kingdom for a @tailrec!
     while (true) {
       boolean allDone = true;
+      boolean allCanceled = canceled;
 
       for (final Map.Entry<DownloadProcess, Future<List<Result>>> entry : downloads.entrySet()) {
         final DownloadProcess download = entry.getKey();
@@ -96,7 +97,7 @@ public class StreamingDownloadMultiple
         final boolean done = futureResult.isDone();
         if (!done) allDone = false;
 
-        if (canceled) {
+        if (allCanceled) {
           download.cancel();
           continue;
         }
@@ -109,7 +110,7 @@ public class StreamingDownloadMultiple
         } catch (final Exception e) {}
       }
 
-      if (allDone || canceled) {
+      if (allDone || allCanceled) {
         return null;
       }
     }
