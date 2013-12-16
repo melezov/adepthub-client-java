@@ -23,16 +23,16 @@ public class StreamingDownload {
 
   public DownloadProcess download(
       final List<StreamDefinition> streamsList,
-      final long expectedContentLength,
+      final long expectedSize,
       final SHA256 expectedHash,
       final ExecutorService executorService) {
 
     if (streamsList.size() == 1) {
       return new StreamingDownloadSingle(logger, hasher, streamsList.get(0),
-          expectedContentLength, expectedHash);
+          expectedSize, expectedHash);
     } else {
       return new StreamingDownloadMultiple(logger, hasher, streamsList,
-          expectedContentLength, expectedHash, executorService);
+          expectedSize, expectedHash, executorService);
     }
   }
 }

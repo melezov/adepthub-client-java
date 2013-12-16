@@ -1,12 +1,9 @@
 package com.adepthub.client.model.json;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.adepthub.client.hash.SHA256;
 import com.adepthub.client.model.Artifact;
+import com.adepthub.client.model.Metadata;
 import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonValue;
 
 public enum ArtifactJsonDeserialization
     implements JsonDeserialization<Artifact> {
@@ -15,21 +12,17 @@ public enum ArtifactJsonDeserialization
 
   @Override
   public Artifact fromJson(final JsonObject jo) {
-    final List<String> locations = new ArrayList<String>();
-    for (final JsonValue jv : jo.get("locations").asArray()) {
-      locations.add(jv.asString());
-    }
-
-    final long contentLength = jo.get("content-length").asLong();
-
+    final String[] locations = JsonDeserializationHelper.toStringArray(jo, "locations");
     final String hashString = jo.get("hash").asString();
-
+    final long size = jo.get("size").asLong();
     final String filename = jo.get("filename").asString();
+    final Metadata metadata = MetadataJsonDeserialization.INSTANCE.fromJson(jo.get("metadata").asObject());
 
     return new Artifact(
-        locations.toArray(new String[locations.size()]),
-        contentLength,
+        locations,
         new SHA256(hashString),
-        filename);
+        size,
+        filename,
+        metadata);
   }
 }

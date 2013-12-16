@@ -24,7 +24,7 @@ public class StreamingDownloadMultiple
   private final Logger logger;
   private final Hasher hasher;
   private final List<StreamDefinition> streamsList;
-  private final long expectedContentLength;
+  private final long expectedSize;
   private final SHA256 expectedHash;
   private final ExecutorService executorService;
 
@@ -32,13 +32,13 @@ public class StreamingDownloadMultiple
       final Logger logger,
       final Hasher hasher,
       final List<StreamDefinition> streamsList,
-      final long expectedContentLength,
+      final long expectedSize,
       final SHA256 expectedHash,
       final ExecutorService executorService) {
     this.logger = logger;
     this.hasher = hasher;
     this.streamsList = streamsList;
-    this.expectedContentLength = expectedContentLength;
+    this.expectedSize = expectedSize;
     this.expectedHash = expectedHash;
     this.executorService = executorService;
 
@@ -56,7 +56,7 @@ public class StreamingDownloadMultiple
     // we initialize each download on the provided executor service
     for (final StreamDefinition streams : streamsList) {
       final DownloadProcess download = new StreamingDownloadSingle(logger,
-          hasher, streams, expectedContentLength, expectedHash);
+          hasher, streams, expectedSize, expectedHash);
 
       downloads.put(download, executorService.submit(download));
     }
@@ -138,11 +138,11 @@ public class StreamingDownloadMultiple
   }
 
   @Override
-  public void contentLengthUpdated(
+  public void sizeUpdated(
       final StreamDefinition streams,
-      final long contentLength) {
+      final long size) {
     for(final ProgressListener listener : progressListeners) {
-      listener.contentLengthUpdated(streams, contentLength);
+      listener.sizeUpdated(streams, size);
     }
   }
 }

@@ -1,5 +1,10 @@
 package com.adepthub.client.hash;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -44,6 +49,32 @@ public class Hasher {
       final SHA256 hash = new SHA256(sha256.digest());
       logger.debug("Digested hash: {}", hash);
       return hash;
+    }
+  }
+
+  private static final int BUFFER_SIZE = 8192;
+
+  public boolean validateStream(final InputStream is, final SHA256 hash) throws IOException {
+    final BufferedInputStream bis = new BufferedInputStream(is);
+    final byte[] buffer = new byte[BUFFER_SIZE];
+    final HashProcess process = new HashProcess();
+
+    while (true) {
+      final int read = bis.read(buffer);
+      if (read == -1) break;
+      process.update(buffer, 0, read);
+    }
+
+    return hash.validate(process.digest());
+  }
+
+  public boolean validateFile(final File file, final SHA256 hash) throws IOException {
+    final InputStream is = new FileInputStream(file);
+    try {
+      return validateStream(is, hash);
+    }
+    finally {
+      is.close();
     }
   }
 }

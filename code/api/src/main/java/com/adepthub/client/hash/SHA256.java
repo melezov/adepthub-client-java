@@ -62,13 +62,6 @@ public final class SHA256 {
 
   // ---------------------------------------------------------------------------
 
-  /* Returns a 4 character lowercase hexadecimal representation of a 16-bit word at index */
-  public String getWord(final int index) {
-    return hashString.substring(index << 2, 4);
-  }
-
-  // ---------------------------------------------------------------------------
-
   // Converts a hex representation of the hash into binary form
   private static byte[] hexToBytes(final String hashString) {
     return DatatypeConverter.parseHexBinary(hashString);

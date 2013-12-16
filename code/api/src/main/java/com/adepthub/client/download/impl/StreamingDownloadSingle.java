@@ -27,19 +27,19 @@ public class StreamingDownloadSingle
   private final Logger logger;
   private final Hasher hasher;
   private final StreamDefinition streams;
-  private final long expectedContentLength;
+  private final long expectedSize;
   private final SHA256 expectedHash;
 
   public StreamingDownloadSingle(
       final Logger logger,
       final Hasher hasher,
       final StreamDefinition streams,
-      final long expectedContentLength,
+      final long expectedSize,
       final SHA256 expectedHash) {
     this.logger = logger;
     this.hasher = hasher;
     this.streams = streams;
-    this.expectedContentLength = expectedContentLength;
+    this.expectedSize = expectedSize;
     this.expectedHash = expectedHash;
   }
 
@@ -104,7 +104,7 @@ public class StreamingDownloadSingle
     final byte[] buffer = new byte[BUFFER_LENGTH];
     final HashProcess hashProcess = hasher.init();
 
-    long contentLength = 0L;
+    long size = 0L;
 
     while (true) {
       if (canceled) {
@@ -120,27 +120,27 @@ public class StreamingDownloadSingle
             streams.location));
       }
 
-      if (contentLength + read > expectedContentLength) {
+      if (size + read > expectedSize) {
         logger.debug(
             "Retrieved more than expected {} bytes, halting download procedure ...",
-            expectedContentLength);
+            expectedSize);
         throw new IOException(String.format(
             "Download was too large, only %d bytes were expected",
-            expectedContentLength));
+            expectedSize));
       }
 
       os.write(buffer, 0, read);
       hashProcess.update(buffer, 0, read);
-      contentLength += read;
+      size += read;
 
-      notifyListeners(streams, contentLength);
+      notifyListeners(streams, size);
     }
 
     // Download complete, performing size validation
-    if (contentLength < expectedContentLength) {
+    if (size < expectedSize) {
       throw new IOException(String.format(
-          "Downloaded only %d bytes, but %d were expected", contentLength,
-          expectedContentLength));
+          "Downloaded only %d bytes, but %d were expected", size,
+          expectedSize));
     }
 
     // Checking hash
@@ -177,9 +177,9 @@ public class StreamingDownloadSingle
 
   private void notifyListeners(
       final StreamDefinition streams,
-      final long contentLength) {
+      final long size) {
     for(final ProgressListener listener : progressListeners) {
-      listener.contentLengthUpdated(streams, contentLength);
+      listener.sizeUpdated(streams, size);
     }
   }
 }
